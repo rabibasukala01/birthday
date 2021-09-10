@@ -38,4 +38,4 @@ async def todaybirthday(context):
             await context.send(data)
 
 
-client.run("ODg1NTE3MjQ2NzM3MjkzMzQy.YToMMw.Js5Xv7KzAzl5AA35J0feCAZtuV4")
+client.run(token)
