@@ -5,8 +5,6 @@ import datetime
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
-print("test")
-
 
 @client.event
 async def on_ready():
@@ -18,7 +16,7 @@ async def addmine(context, month, day, *, name):
 
     guild_id = context.message.guild.id
 
-    database.add_people(str(guild_id), name, month, day)
+    database.add_people(guild_id, name, month, day)
     await context.send("BIRTH DATE ADDED TO DATABASE")
 
 
@@ -29,8 +27,7 @@ async def todaybirthday(context):
 
     guild_id = context.message.guild.id
 
-    data_lists = database.today_bday(
-        int(dates[1]), int(dates[2]), str(guild_id))
+    data_lists = database.today_bday(int(dates[1]), int(dates[2]), guild_id)
     # data_lists = database.today_bday(9, 7)
     # print(data_lists)
 
