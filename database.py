@@ -2,41 +2,50 @@ import sqlite3
 
 
 def connect_to_db(guild_id):
-    connection = sqlite3.connect(f'{guild_id}.db')
-    cursor = connection.cursor()
-    return cursor
+
+    return sqlite3.connect(f'{guild_id}.db')
+   # cursor = connection.cursor()
+
+   # return cursor
 
 
-def create(guild_id):
-    cursor = connect_to_db(guild_id)
+def create(guild_id, connection):
 
-    cursor.execute(
-        "CREATE TABLE IF NOT EXISTS PEOPLE (id INTEGER PRIMARY KEY,NAME STRING ,MONTH INTEGER ,DAY INTEGER )")
+    with connection:
+        connection.execute(
+            "CREATE TABLE IF NOT EXISTS PEOPLE (SN INTEGER PRIMARY KEY,ID INTEGER ,NAME STRING ,DISCRIMINATOR STRING ,MONTH INTEGER ,DAY INTEGER ,ADDED BOOL)")
 
 
-def add_people(guild_id, name, month, day):
-    cursor = connect_to_db(guild_id)
-    create(guild_id)
-    cursor.execute(
-        "INSERT INTO PEOPLE (NAME,MONTH ,DAY)VALUES(?,?,?);", (name, month, day))
-    # cause connection halyo vaney ta not define vai halxa ni
-    connection = sqlite3.connect(f'{guild_id}.db')
+def add_people(guild_id, month, day, name, discriminator, id_of_member, added):
+    connection = connect_to_db(guild_id)
+
+    with connection:
+        create(guild_id, connection)
+        connection.execute(
+            "INSERT INTO PEOPLE (ID ,NAME,DISCRIMINATOR,MONTH ,DAY,ADDED)VALUES(?,?,?,?,?,?);", (id_of_member, name, discriminator, month, day, added))
+
     connection.commit()
 
 
 def today_bday(today_month, today_day, guild_id):
-    cursor = connect_to_db(guild_id)
-    create(guild_id)
-    newList = []
+    connection = connect_to_db(guild_id)
+    create(guild_id, connection)
+    newIDlists = []
 
-    NAMES = cursor.execute(
-        "SELECT NAME FROM PEOPLE WHERE MONTH=? AND DAY =?;", (today_month, today_day))
+    with connection:
 
-    for name in NAMES:
-        newList.append(name[0])
-        print(name)
-    return newList
+        IDlists = connection.execute(
+            "SELECT ID,ADDED FROM PEOPLE WHERE MONTH=? AND DAY =?;", (today_month, today_day))
+
+        for lists in IDlists:
+            newIDlists.append(lists)  # each element in list is tuple
+        print(newIDlists)
+        return newIDlists
 
 
 # def debugshow():
 #     return cursor.execute("SELECT * FROM PEOPLE").fetchall()
+# today_bday(9, 12, 885502487346417695)
+# add_people(885502487346417695, 9, 12, 'rara',
+#            9898, 717730586843938846, added=True)
+# today_bday(9, 12, 885502487346417695)
