@@ -46,4 +46,4 @@ async def todaybirthday(context):
             await context.send(f'<@!{data[0]}>, Birthday ko suvakamana xa !')
 
 
-client.run("ODg1NTE3MjQ2NzM3MjkzMzQy.YToMMw.I1zFNx2Wok8h_IcAN8yzm-EcyVU")
+client.run(token)
