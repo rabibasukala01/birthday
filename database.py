@@ -39,8 +39,16 @@ def today_bday(today_month, today_day, guild_id):
 
         for lists in IDlists:
             newIDlists.append(lists)  # each element in list is tuple
-        print(newIDlists)
+        # print(newIDlists)
         return newIDlists
+
+
+def update_data(guild_id, memberID, month, day):
+    connection = connect_to_db(guild_id)
+    create(guild_id, connection)
+    with connection:
+        connection.execute(
+            "UPDATE PEOPLE SET MONTH = ? , DAY= ? WHERE ID = ?;", (month, day, memberID))
 
 
 # def debugshow():
@@ -48,4 +56,7 @@ def today_bday(today_month, today_day, guild_id):
 # today_bday(9, 12, 885502487346417695)
 # add_people(885502487346417695, 9, 12, 'rara',
 #            9898, 717730586843938846, added=True)
-# today_bday(9, 12, 885502487346417695)
+# update_data(885502487346417695, 717730586843938846, 9, 13)
+
+
+# today_bday(9, 13, 885502487346417695)

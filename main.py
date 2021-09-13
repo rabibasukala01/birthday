@@ -46,4 +46,37 @@ async def todaybirthday(context):
             await context.send(f'<@!{data[0]}>, Birthday ko suvakamana xa !')
 
 
-client.run(token)
+@client.command()
+async def update(context, month, day):
+    guild_id = str(context.message.guild.id)
+    id_of_member = context.author.id
+    database.update_data(guild_id, id_of_member, month, day)
+    await context.send("DATE UPDATED IN DATABASE")
+
+
+client.run("ODg1NTE3MjQ2NzM3MjkzMzQy.YToMMw.OiJxMy5WO4bgyvVlIdppRZ-9tuc")
+
+
+# daily print(mention) in specific text channel
+
+# 3 dm to specific bithday people
+# each member can add only once
+
+
+# each member can add only once
+# --->> make column of "added" 1 for true 0 for false . if date is added to column added make its value to 1. if again user try to add date first see the colum if it is 0 or 1 . if 0 add the date if not print the error statement
+
+
+# --------------------------------sakyo
+# 1 memeber ko naam liney automatic and mention them
+# 2 update date if wrong{# update date if wrong
+# --->> DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';OR
+# UPDATE employees
+# SET
+#     column1=value,column2=value, ......
+# WHERE
+#     condition;
+
+
+# naya kura thapako
+# await context.author.send("aa")
