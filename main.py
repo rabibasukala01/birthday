@@ -54,7 +54,7 @@ async def update(context, month, day):
     await context.send("DATE UPDATED IN DATABASE")
 
 
-client.run("ODg1NTE3MjQ2NzM3MjkzMzQy.YToMMw.OiJxMy5WO4bgyvVlIdppRZ-9tuc")
+client.run("token")
 
 
 # daily print(mention) in specific text channel
