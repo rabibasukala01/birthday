@@ -3,6 +3,10 @@ from discord.ext import commands
 import database
 import datetime
 import time
+import os
+from dotenv import load_dotenv
+load_dotenv('.env')
+token = os.getenv('TOKEN')
 
 client = commands.Bot(command_prefix='?',
                       intents=discord.Intents.all(), help_command=None)
