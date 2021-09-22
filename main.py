@@ -2,13 +2,20 @@ import discord  # discord==1.7.3#discord.py==1.7.3
 from discord.ext import commands
 import database
 import datetime
+import time
 
-client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
+client = commands.Bot(command_prefix='?',
+                      intents=discord.Intents.all(), help_command=None)
 
 
 @client.event
 async def on_ready():
     print("ok")
+
+
+@client.command()
+async def help(context):
+    await context.send("help command styling gardeu na ")
 
 
 @client.command()
@@ -18,15 +25,15 @@ async def addmine(context, month, day):
     # 1..
     name_of_member = context.author.name
     discriminator_of_member = context.author.discriminator
-    id_of_member = context.author.id
+    id_of_member = (context.author.id)
     # print(id_of_member)
     # print(type(id_of_member))
-    # print("mathi ko")
 
     # ...
-    database.add_people(guild_id, month, day, name_of_member,
-                        discriminator_of_member, id_of_member, added=True)
-    await context.send("BIRTH DATE ADDED TO DATABASE")
+
+    text = database.add_people(guild_id, month, day, name_of_member,
+                               discriminator_of_member, id_of_member)
+    await context.send(text)
 
 
 @ client.command()
@@ -39,11 +46,18 @@ async def todaybirthday(context):
 # data_list ma  lists   ko element is in tuple
     if len(data_lists) == 0:
         await context.send("NO ONE BORN ON THIS DAY LMAO")
+
     else:
         for data in data_lists:
             # print(data)
 
             await context.send(f'<@!{data[0]}>, Birthday ko suvakamana xa !')
+            user = dm(data[0])
+            await user.send("Birthday ko suvakamana xa")
+
+
+def dm(userid):
+    return (client.get_user(userid))
 
 
 @client.command()
@@ -54,21 +68,21 @@ async def update(context, month, day):
     await context.send("DATE UPDATED IN DATABASE")
 
 
-client.run("token")
+# @client.command()
+# async def ping(context):
+#     await context.send(f"{round(client.latency*1000)}ms")
+
+
+client.run("ODg1NTE3MjQ2NzM3MjkzMzQy.YToMMw.nPuaNdrEx2_fpWxL2kBqjzzVcZ4")
 
 
 # daily print(mention) in specific text channel
 
-# 3 dm to specific bithday people
-# each member can add only once
 
-
-# each member can add only once
-# --->> make column of "added" 1 for true 0 for false . if date is added to column added make its value to 1. if again user try to add date first see the colum if it is 0 or 1 . if 0 add the date if not print the error statement
-
-
-# --------------------------------sakyo
+# --------------------------------sakyo---------------
 # 1 memeber ko naam liney automatic and mention them
+
+
 # 2 update date if wrong{# update date if wrong
 # --->> DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';OR
 # UPDATE employees
@@ -76,6 +90,10 @@ client.run("token")
 #     column1=value,column2=value, ......
 # WHERE
 #     condition;
+
+# 3 each member can add only once- search in database for specific id. then if it is exist ignore else add to database
+
+# 4 dm to specific bithday people
 
 
 # naya kura thapako
