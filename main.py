@@ -73,7 +73,7 @@ async def update(context, month, day):
 #     await context.send(f"{round(client.latency*1000)}ms")
 
 
-client.run("ODg1NTE3MjQ2NzM3MjkzMzQy.YToMMw.nPuaNdrEx2_fpWxL2kBqjzzVcZ4")
+client.run(token)
 
 
 # daily print(mention) in specific text channel
