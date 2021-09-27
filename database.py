@@ -1,4 +1,6 @@
+
 import sqlite3
+import os
 
 
 def connect_to_db(guild_id):
@@ -9,16 +11,73 @@ def connect_to_db(guild_id):
    # return cursor
 
 
-def create(guild_id, connection):
+def create(connection):
 
     with connection:
         connection.execute(
             "CREATE TABLE IF NOT EXISTS PEOPLE (SN INTEGER PRIMARY KEY,ID INTEGER ,NAME STRING ,DISCRIMINATOR STRING ,MONTH INTEGER ,DAY INTEGER );")
 
 
+# ---------------------------
+
+
+def create_db_for_channel_id(connection):
+    with connection:
+        connection.execute(
+            "CREATE TABLE IF NOT EXISTS CHANNEL(SN INTEGER PRIMARY KEY,GUILD_ID INTEGER,CHANNELID INTEGER);")
+
+
+def add_channel(guild_id, channel_id):
+    connection = connect_to_db(guild_id)
+    create_db_for_channel_id(connection)
+    with connection:
+        TEST_IF_GUILD_ID_AVAILABLE = connection.execute(
+            'SELECT GUILD_ID FROM CHANNEL WHERE GUILD_ID=?;', (guild_id,))
+        if TEST_IF_GUILD_ID_AVAILABLE.fetchall() != []:
+            return "already in database"
+        else:
+            connection.execute(
+                "INSERT INTO CHANNEL(GUILD_ID,CHANNELID)VALUES(?,?);", (guild_id, channel_id))
+            return "channel added"
+    connection.commit()
+
+# //guild nikalya files name bata nai
+
+
+def guild_extractor():
+    guild_id_list = []
+    files = os.listdir()
+    for f in files:
+        if f.endswith(".db"):
+            var = f.split(".")
+            guild_id_list.append(var[0])
+    return guild_id_list
+
+
+def showchannelid(guild_id):
+
+    connection = connect_to_db(guild_id)
+    create_db_for_channel_id(connection)
+    with connection:
+        va = connection.execute("SELECT CHANNELID FROM CHANNEL; ")
+
+        return(va.fetchall()[0][0])
+
+
+def update_channel(guild_id, channelname):
+
+    connection = connect_to_db(guild_id)
+    create_db_for_channel_id(connection)
+    with connection:
+        connection.execute(
+            "UPDATE CHANNEL SET CHANNELID = ?  WHERE GUILD_ID = ?;", (channelname, guild_id))
+    return "success"
+# ---------------------------
+
+
 def add_people(guild_id, month, day, name, discriminator, id_of_member):
     connection = connect_to_db(guild_id)
-    create(guild_id, connection)
+    create(connection)
     with connection:
 
         TEST_IF_ID_AVAILABLE = connection.execute(
@@ -36,7 +95,7 @@ def add_people(guild_id, month, day, name, discriminator, id_of_member):
 
 def today_bday(today_month, today_day, guild_id):
     connection = connect_to_db(guild_id)
-    create(guild_id, connection)
+    create(connection)
     newIDlists = []
 
     with connection:
@@ -50,9 +109,9 @@ def today_bday(today_month, today_day, guild_id):
         return newIDlists
 
 
-def update_data(guild_id, memberID, month, day):
+def update_date(guild_id, memberID, month, day):
     connection = connect_to_db(guild_id)
-    create(guild_id, connection)
+    create(connection)
     with connection:
         connection.execute(
             "UPDATE PEOPLE SET MONTH = ? , DAY= ? WHERE ID = ?;", (month, day, memberID))
@@ -76,3 +135,13 @@ def update_data(guild_id, memberID, month, day):
 # print(TEST_IF_ID_AVAILABLE.fetchall())
 # if TEST_IF_ID_AVAILABLE.fetchall() == []:
 #     print("lol")
+
+
+# channel = access_to_guild_channel()
+# print(type(channel))
+# for c in channel:
+#     print(c[0])
+
+
+# gg = guild_extractor()
+# print(gg)
