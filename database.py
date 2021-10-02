@@ -116,32 +116,3 @@ def update_date(guild_id, memberID, month, day):
         connection.execute(
             "UPDATE PEOPLE SET MONTH = ? , DAY= ? WHERE ID = ?;", (month, day, memberID))
 
-
-# def debugshow():
-#     return cursor.execute("SELECT * FROM PEOPLE").fetchall()
-# today_bday(9, 12, 885502487346417695)
-# add_people(885502487346417695, 9, 12, 'rara',
-#            9898, 717730586843938846, added=True)
-# update_data(885502487346417695, 717730586843938846, 9, 13)
-
-
-# today_bday(9, 13, 885502487346417695)
-# connection = connect_to_db(871619898852393070)
-# with connection:
-#     create(871619898852393070, connection)
-#     TEST_IF_ID_AVAILABLE = connection.execute(
-#         "SELECT ID FROM PEOPLE WHERE ID=?;", (717730586843938846,))
-
-# print(TEST_IF_ID_AVAILABLE.fetchall())
-# if TEST_IF_ID_AVAILABLE.fetchall() == []:
-#     print("lol")
-
-
-# channel = access_to_guild_channel()
-# print(type(channel))
-# for c in channel:
-#     print(c[0])
-
-
-# gg = guild_extractor()
-# print(gg)
